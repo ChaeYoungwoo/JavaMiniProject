@@ -40,7 +40,10 @@ public class Login {
 
 		System.out.print("비밀번호를 입력하세요: ");
 		inputPw = scanner.nextLine();
-
+		if(inputAN.equals("99999999")) {
+			System.out.println("관리자 계좌로는 로그인할 수 없습니다.");
+			return;
+		}
 		for (AccountVO account : AccountDao.accounts) {
 			if (account.getAccountNo().equals(inputAN) && account.getUserPw().equals(inputPw)) {
 				System.out.println("로그인 성공!");
@@ -54,10 +57,10 @@ public class Login {
 	
 	public void adminLogin() {
 		System.out.println("===== 관리자 로그인 ======");
-		System.out.println("계좌번호를 입력하세요: ");
+		System.out.print("계좌번호를 입력하세요: ");
 		inputAN = scanner.nextLine();
 		
-		System.out.println("비밀번호를 입력하세요: ");
+		System.out.print("비밀번호를 입력하세요: ");
 		inputPw = scanner.nextLine();
 		
 		for(AccountVO account : AccountDao.accounts) {

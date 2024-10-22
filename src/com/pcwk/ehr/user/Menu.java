@@ -8,6 +8,7 @@ public class Menu {
 	Deposit deposit = new Deposit(); // 입금
 	RequestAdmin reqAdmin = new RequestAdmin(); // 계좌 삭제 관리자에게 요청
 	ChangePw changePw = new ChangePw(); // 비밀번호 변경 (사용자)
+	DeleteAcc deleteAcc = new DeleteAcc(); // 관리자가 사용자 계좌 삭제
 
 	AccountDao dao = new AccountDao();
 	Scanner scanner = new Scanner(System.in);
@@ -70,14 +71,20 @@ public class Menu {
 				break;
 			case 2:
 				if (login.isAdminLogin() == true) {
-					// changePw();
+					changePw.adminChangePw();
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
 				break;
 			case 3:
 				if (login.isAdminLogin() == true) {
-					// delteAcc();
+					if (reqAdmin.isDeleteAccRequest() == true) {
+						deleteAcc.deleteMenu();
+						break;
+					}else {
+						System.out.println("계좌 삭제 요청이 없습니다.");
+					}
+					break;
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
@@ -114,8 +121,13 @@ public class Menu {
 				createAccount.createAccount();
 				break;
 			case 2: // 로그인
-
+				
+				if(AccountVO.userLoginVO == null) {
 				login.userLogin();
+				break;
+				} else {
+					System.out.println("이미 로그인 되어있습니다.");
+				}
 				break;
 
 			case 3: // 입금

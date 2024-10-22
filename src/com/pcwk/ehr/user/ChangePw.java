@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class ChangePw {
 	Scanner scanner = new Scanner(System.in);
+	AccountDao dao = new AccountDao();
 
 	public ChangePw() {
 
@@ -36,6 +37,24 @@ public class ChangePw {
 	}
 	
 	public void adminChangePw() {
+		System.out.println("===== 계좌 비밀번호 변경 =====");
+		System.out.println("Admin is not allowed to change user's password in his / her own intention!!! ");
+		dao.displayAllAccInfo();
+		
+		System.out.print("비밀번호를 변경할 계좌번호를 입력하세요: ");
+		String inputAccNo = scanner.nextLine();
+		
+		System.out.print("새 비밀번호를 입력하세요: ");
+		String inputPw = scanner.nextLine();
+		
+		for(AccountVO account : AccountDao.accounts) {
+			if(account.getAccountNo().equals(inputAccNo)){
+				account.setUserPw(inputPw);
+				System.out.println("비밀번호 변경 성공!");
+			}
+		}
+		
+		
 		
 	}
 
