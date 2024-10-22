@@ -9,6 +9,7 @@ public class Main {
 //		dao.displayAllAccInfo();
 		Menu menu = new Menu();
 		menu.menu0();
+		dao.writeFile("accounts.txt");
 		
 		
 	}

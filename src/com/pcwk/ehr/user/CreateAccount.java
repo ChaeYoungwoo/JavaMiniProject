@@ -50,7 +50,15 @@ public class CreateAccount {
 
         out = new AccountVO(accNo, userName, userPw, userDob, regDt, roleName, balance);
         
-        System.out.println(out);
+        System.out.println("********** 계좌 생성 완료! **********");
+        System.out.println("계좌번호: " + out.getAccountNo());
+        System.out.println("소유주명: " +out.getUserName());
+        System.out.println("비밀번호: " +out.getUserPw());
+        System.out.println("생년월일: " +out.getUserDob());
+        System.out.println("가입일: " +out.getRegDt());
+        System.out.println("권한명: " +out.getRoleName());
+        System.out.println("잔고: " +out.getBalance());
+        System.out.println("********************************");
         dao.doSave(out);
 		return out;
 	}
