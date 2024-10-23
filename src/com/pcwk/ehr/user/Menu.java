@@ -4,13 +4,15 @@ import java.util.Scanner;
 
 public class Menu {
 	CreateAccount createAccount = new CreateAccount(); // 계좌 생성
-	Login login = new Login(); // 로그인
-	Deposit deposit = new Deposit(); // 입금
-	RequestAdmin reqAdmin = new RequestAdmin(); // 계좌 삭제 관리자에게 요청
-	ChangePw changePw = new ChangePw(); // 비밀번호 변경 (사용자)
-	DeleteAcc deleteAcc = new DeleteAcc(); // 관리자가 사용자 계좌 삭제
+	Login login 				= new Login(); // 로그인
+	Deposit deposit 			= new Deposit(); // 입금
+	RequestAdmin reqAdmin 		= new RequestAdmin(); // 계좌 삭제 관리자에게 요청
+	ChangePw changePw 			= new ChangePw(); // 비밀번호 변경 (사용자)
+	DeleteAcc deleteAcc 		= new DeleteAcc(); // 관리자가 사용자 계좌 삭제
+	Transfer transfer		    = new Transfer(); // 이체
+	Withdraw withdraw 			= new Withdraw(); // 출금
 
-	AccountDao dao = new AccountDao();
+	AccountDao dao  = new AccountDao();
 	Scanner scanner = new Scanner(System.in);
 
 	public void menu0() { // 처음 화면 (메인메뉴) // select 관리자 모드 or 사용자 모드
@@ -33,10 +35,7 @@ public class Menu {
 			case 1: // 관리자 모드
 				if (login.isAdminLogin() == false) {
 					login.adminLogin();
-				} else {
-					System.out.println("잘못된 시도입니다.");
 				}
-
 				if (login.isAdminLogin() == true) {
 					adminMenu();
 				}
@@ -122,8 +121,8 @@ public class Menu {
 			case 1: // 계좌 생성
 				createAccount.createAccount();
 				break;
+				
 			case 2: // 로그인
-
 				if (AccountVO.userLoginVO != null) {
 					System.out.println("이미 로그인 되어있습니다.");
 				} else if (AccountVO.userLoginVO == null) {
@@ -132,7 +131,6 @@ public class Menu {
 				} else {
 					System.out.println("잘못된 시도입니다.");
 				}
-
 				break;
 
 			case 3: // 입금
@@ -144,47 +142,46 @@ public class Menu {
 				break;
 
 			case 4: // 출금
-//				if (getIsLogin() == true) {
-//					withdraw();
-//				} else {
-//					System.out.println("로그인 먼저 해주세요.");
-//				}
-//				break;
-			case 5:
-//				// 송금 함수
-//				if (getIsLogin() == true) {
-//					transfer();
-//				} else {
-//					System.out.println("로그인 먼저 해주세요.");
-//				}
-			case 6:
-				// 계좌 정보 조회 함수
+				if (login.IsUserLogin() == true) {
+					withdraw.withdraw();
+				} else {
+					System.out.println("로그인 먼저 해주세요.");
+				}
+				break;
+				
+			case 5: // 송금 함수
+				if (login.IsUserLogin() == true) {
+					transfer.trasnfer();
+				} else {
+					System.out.println("로그인 먼저 해주세요.");
+				}
+				break;
+				
+			case 6: // 계좌 정보 조회 함수
 				if (login.IsUserLogin() == true) {
 					dao.displayLoginAccInfo();
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
 				break;
-			case 7:
-				// 비밀번호 변경 (사용자)
+				
+			case 7: // 비밀번호 변경 (사용자)
 				if (login.IsUserLogin() == true) {
 					changePw.userChangePw();
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
-
 				break;
 
-			case 8:
-				// 계좌 삭제 (관리자에게 요청)
+			case 8: // 계좌 삭제 (관리자에게 요청)
 				if (login.IsUserLogin() == true) {
 					reqAdmin.requestAdmin();
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
 				break;
-			case 0:
-				// 사용자 모드 종료
+				
+			case 0: // 사용자 모드 종료
 				System.out.println("메인 메뉴로 돌아갑니다.");
 				break;
 			}

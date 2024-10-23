@@ -1,5 +1,6 @@
 package com.pcwk.ehr.user;
 
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class DeleteAcc {
@@ -7,16 +8,16 @@ public class DeleteAcc {
 	RequestAdmin reqAdmin = new RequestAdmin();
 	AccountDao dao = new AccountDao();
 	Scanner scanner = new Scanner(System.in);
-	
+
 	public DeleteAcc() {
-		
+
 	}
-	
+
 	public void deleteMenu() {
 		System.out.println("===== 계좌 삭제 =====");
 		int input = 100;
-		while(input!=0){
-			System.out.println("사용자 계좌 삭제 요청이 있습니다.");
+		while (input != 0) {
+
 			System.out.println();
 			dao.displayLoginAccInfo();
 
@@ -25,25 +26,33 @@ public class DeleteAcc {
 			System.out.println("1번 - YES");
 			System.out.println("0번 - NO");
 			input = scanner.nextInt();
-			
-			switch(input) {
+
+			switch (input) {
 			case 1:
 				deleteAcc();
+
 				break;
-			case 2:
+			case 0:
 				break;
 			}
 			break;
 		}
-		
+
 	}
-	
+
 	public void deleteAcc() {
-		for(AccountVO account: AccountDao.accounts) {
-			if(account.getAccountNo().equals(AccountVO.userLoginVO.getAccountNo())) {
-				AccountDao.accounts.remove(account);
-				System.out.println("계좌 삭제 성공");
+
+		Iterator<AccountVO> iter = AccountDao.accounts.iterator();
+
+		while (iter.hasNext()) {
+			AccountVO delAcc = iter.next();
+			if (delAcc.getAccountNo().equals(AccountVO.userLoginVO.getAccountNo())) {
+				iter.remove();
+				reqAdmin.setDeleteAccRequest(false);
+				System.out.println("계좌 삭제 성공!");
+				dao.doUpdate();
 			}
+			AccountVO.userLoginVO = null;
 		}
 	}
 }

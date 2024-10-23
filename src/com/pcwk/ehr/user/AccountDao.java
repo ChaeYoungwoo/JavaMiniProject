@@ -32,8 +32,11 @@ public class AccountDao implements WorkDiv<AccountVO> {
 		for (AccountVO account : accounts) {
 
 			System.out.println(i + "번 계좌");
-			System.out.println("계좌번호: " + account.getAccountNo() + ", 이름: " + account.getUserName() + ", 생년월일: "
-					+ account.getUserDob() + ", 가입일: " + account.getRegDt() + ", 잔액: " + account.getBalance());
+			System.out.println("계좌번호: " +   account.getAccountNo() + 
+							   ", 이름: " +    account.getUserName() + 
+					           ", 생년월일: " + account.getUserDob() +
+					           ", 가입일: " +   account.getRegDt() + 
+				           	   ", 잔액: " +    account.getBalance());
 			System.out.println();
 			i++;
 		}
@@ -45,11 +48,11 @@ public class AccountDao implements WorkDiv<AccountVO> {
 			return;
 		}
 		System.out.println("===== 계좌 정보 =====");
-		System.out.println("계좌번호: " + AccountVO.userLoginVO.getAccountNo());
-		System.out.println("소유주명: " + AccountVO.userLoginVO.getUserName());
-		System.out.println("생년월일: " + AccountVO.userLoginVO.getUserDob());
-		System.out.println("가입일: " + AccountVO.userLoginVO.getRegDt());
-		System.out.println("잔액: " + AccountVO.userLoginVO.getBalance());
+		System.out.println("계좌번호: "  + AccountVO.userLoginVO.getAccountNo());
+		System.out.println("소유주명: "  + AccountVO.userLoginVO.getUserName());
+		System.out.println("생년월일: "  + AccountVO.userLoginVO.getUserDob());
+		System.out.println("가입일: "   + AccountVO.userLoginVO.getRegDt());
+		System.out.println("잔액: "    + AccountVO.userLoginVO.getBalance());
 	}
 
 	/**
@@ -74,7 +77,7 @@ public class AccountDao implements WorkDiv<AccountVO> {
 	public int doSave(AccountVO param) { // accounts(arraylist)에 객체를 저장하는 메소드
 		// 1. 저장하기 전에 동일한 accountNo가 이미 있는지 확인
 		// 2. 인자값을 통해 받은 데이터를 accounts에 추가.
-
+		
 		int flag = 0; // 상태값
 
 		if (isExistsAccount(param) == true) { // 이미 저장되어있는 accountNo라면, flag값을 2를 반환하고 stop.
@@ -89,9 +92,27 @@ public class AccountDao implements WorkDiv<AccountVO> {
 	}
 
 	@Override
-	public int doUpdate(AccountVO param) {
+	public void doUpdate() {
 
-		return 0;
+		try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("accounts.txt"), "UTF-8"))) {
+			for (AccountVO account : accounts) {
+				String accStr = account.getAccountNo() + "," +
+								account.getUserName() + "," +
+								account.getUserPw()+ "," +
+								account.getUserDob() + "," +
+								account.getRegDt() + "," +
+								account.getRoleName() + "," +
+								account.getBalance();
+				bw.write(accStr);
+				bw.newLine();
+			}
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("UnsupportedEncodingException: " + e.getMessage());
+		} catch (FileNotFoundException e) {
+			System.out.println("FileNotFoundException: " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("IOException: " + e.getMessage());
+		}
 	}
 
 	@Override
