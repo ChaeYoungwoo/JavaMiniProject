@@ -15,7 +15,7 @@ public class Menu {
 
 	public void menu0() {
 
-		int input1 = 100;
+		int input1 = 3;
 		while (input1 != 0) {
 			System.out.println("====================================");
 			System.out.println("┌────────────────────────┐");
