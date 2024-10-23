@@ -13,7 +13,7 @@ public class Menu {
 	AccountDao dao = new AccountDao();
 	Scanner scanner = new Scanner(System.in);
 
-	public void menu0() {
+	public void menu0() { // 처음 화면 (메인메뉴) // select 관리자 모드 or 사용자 모드
 
 		int input1 = 3;
 		while (input1 != 0) {
@@ -30,15 +30,18 @@ public class Menu {
 
 			input1 = scanner.nextInt();
 			switch (input1) {
-			case 1:
-				login.adminLogin();
+			case 1: // 관리자 모드
+				if (login.isAdminLogin() == false) {
+					login.adminLogin();
+				} else {
+					System.out.println("잘못된 시도입니다.");
+				}
+
 				if (login.isAdminLogin() == true) {
 					adminMenu();
-				} else {
-					System.out.println("'관리자' 로그인 해주세요.");
 				}
 				break;
-			case 2:
+			case 2: // 사용자 모드
 				userMenu();
 				break;
 			case 0:
@@ -47,7 +50,7 @@ public class Menu {
 		}
 	}
 
-	public void adminMenu() {
+	public void adminMenu() { // 관리자 모드 메뉴
 
 		int input2 = 0;
 
@@ -66,34 +69,33 @@ public class Menu {
 
 			input2 = scanner.nextInt();
 			switch (input2) {
-			case 1:
+			case 1: // 모든 계좌 정보 조회
 				dao.displayAllAccInfo();
 				break;
-			case 2:
+			case 2: // 로그인 계좌의 비밀번호 변경
 				if (login.isAdminLogin() == true) {
 					changePw.adminChangePw();
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
 				break;
-			case 3:
+			case 3: // 로그인 계좌의 계정 삭제
 				if (login.isAdminLogin() == true) {
 					if (reqAdmin.isDeleteAccRequest() == true) {
 						deleteAcc.deleteMenu();
 						break;
-					}else {
+					} else {
 						System.out.println("계좌 삭제 요청이 없습니다.");
 					}
 					break;
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
-				break;
 			}
 		} while (input2 != 0);
 	}
 
-	public void userMenu() {
+	public void userMenu() { // 사용자 모드
 		int input = 0;
 
 		do {
@@ -121,13 +123,16 @@ public class Menu {
 				createAccount.createAccount();
 				break;
 			case 2: // 로그인
-				
-				if(AccountVO.userLoginVO == null) {
-				login.userLogin();
-				break;
-				} else {
+
+				if (AccountVO.userLoginVO != null) {
 					System.out.println("이미 로그인 되어있습니다.");
+				} else if (AccountVO.userLoginVO == null) {
+					login.userLogin();
+					break;
+				} else {
+					System.out.println("잘못된 시도입니다.");
 				}
+
 				break;
 
 			case 3: // 입금
@@ -167,6 +172,7 @@ public class Menu {
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
+
 				break;
 
 			case 8:

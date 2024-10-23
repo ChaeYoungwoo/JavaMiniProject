@@ -14,12 +14,13 @@ public class DeleteAcc {
 	
 	public void deleteMenu() {
 		System.out.println("===== 계좌 삭제 =====");
-		int input = 0;
-		do {
+		int input = 100;
+		while(input!=0){
 			System.out.println("사용자 계좌 삭제 요청이 있습니다.");
 			System.out.println();
 			dao.displayLoginAccInfo();
-			
+
+			System.out.println("==================");
 			System.out.println("삭제 하시겠습니까?");
 			System.out.println("1번 - YES");
 			System.out.println("0번 - NO");
@@ -28,12 +29,12 @@ public class DeleteAcc {
 			switch(input) {
 			case 1:
 				deleteAcc();
-				input = 0;
+				break;
 			case 2:
 				break;
 			}
-			
-		}while(input!=0);
+			break;
+		}
 		
 	}
 	
