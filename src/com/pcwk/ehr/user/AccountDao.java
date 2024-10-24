@@ -23,12 +23,12 @@ public class AccountDao implements WorkDiv<AccountVO> {
 	}
 
 	public void displayAllAccInfo() { // 모든 계좌들의 정보 출력 (관리자 사용)
-		if (accounts.isEmpty()) {
+		if (accounts.isEmpty()) { // 컬렉션에 아무 객체 정보가 없을 때
 			System.out.println("등록된 멤버가 없습니다.");
 			return;
 		}
 		int i = 1;
-		System.out.println(accounts.size());
+		System.out.println("총 계좌 수: " + accounts.size()); // 총 계좌 수
 		for (AccountVO account : accounts) {
 
 			System.out.println(i + "번 계좌");
@@ -58,7 +58,7 @@ public class AccountDao implements WorkDiv<AccountVO> {
 	/**
 	 * 1(성공)/0(실패)/2(memberId 중복)
 	 */
-	private boolean isExistsAccount(AccountVO account) {
+	private boolean isExistsAccount(AccountVO account) { // 계좌 중복 처리 (컬렉션에 같은 계좌번호를 가진 계좌가 있으면 flag 0값
 		boolean flag = false;
 
 		for (AccountVO vo : accounts) {
@@ -92,7 +92,7 @@ public class AccountDao implements WorkDiv<AccountVO> {
 	}
 
 	@Override
-	public void doUpdate() {
+	public void doUpdate() { //txt파일 실시간처럼 업데이트 되도록 설정
 
 		try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("accounts.txt"), "UTF-8"))) {
 			for (AccountVO account : accounts) {
@@ -137,7 +137,7 @@ public class AccountDao implements WorkDiv<AccountVO> {
 		for (AccountVO vo : accounts) {
 			if (vo.getAccountNo().equals(param.getAccountNo())) {
 				outVO = vo;
-				break; // 교수님은 break 씀
+				break;
 			}
 		}
 
@@ -197,7 +197,7 @@ public class AccountDao implements WorkDiv<AccountVO> {
 	}
 
 	@Override
-	public void writeFile(String path) {
+	public void writeFile(String path) { //프로그램이 종료됐을 때, 컬렉션에 있는 값을 txt파일에 저장.
 
 		try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "UTF-8"))) {
 			for (AccountVO account : accounts) {

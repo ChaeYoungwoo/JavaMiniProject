@@ -3,8 +3,9 @@ package com.pcwk.ehr.user;
 import java.util.Objects;
 
 public class AccountVO {
-	public static AccountVO userLoginVO = null;
-	public static AccountVO adminLoginVO = null;
+	public static AccountVO userLoginVO = null; // 로그인 유저 객체
+	public static AccountVO adminLoginVO = null; // 관리자 유저 객체
+	public static AccountVO targetAccountVO = null; // 송금 기능 구현 시 상대방 객체
 	private String AccountNo; // 계좌번호
 	private String userName; // 소유주명
 	private String userPw; // 계좌 비밀번호

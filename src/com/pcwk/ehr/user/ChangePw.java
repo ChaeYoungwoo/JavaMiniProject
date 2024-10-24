@@ -10,7 +10,7 @@ public class ChangePw {
 
 	}
 
-	public void userChangePw() {
+	public void userChangePw() { // 사용자가 자신 소유의 비밀번호 변경
 		if (AccountVO.userLoginVO != null) {
 			System.out.println("===== 계좌 비밀번호 변경 =====");
 			System.out.println("계좌 비밀번호 변경을 위해서 정보를 입력해주세요.");
@@ -31,18 +31,17 @@ public class ChangePw {
 					&& inputPw.equals(AccountVO.userLoginVO.getUserPw())) {
 				AccountVO.userLoginVO.setUserPw(newPw);
 				System.out.println("비밀번호 변경 성공!");
+				dao.doUpdate();
 			} else {
 				System.out.println("입력하신 정보가 일치하지 않습니다. 다시 시도해주세요.");
 			}
-
-			System.out.println(AccountVO.userLoginVO.getUserPw());
-			dao.doUpdate();
+			
 		} else {
 			System.out.println("로그인 되어있는 계좌가 없습니다.");
 		}
 	}
 
-	public void adminChangePw() {
+	public void adminChangePw() { // 관리자가 특이 상황이 있을 때, 사용자의 비밀번호를 변경
 
 		System.out.println("===== 계좌 비밀번호 변경 =====");
 		System.out.println("Admin is not allowed to change user's password in his / her own intention!!! ");
@@ -58,12 +57,13 @@ public class ChangePw {
 			if (account.getAccountNo().equals(inputAccNo)) {
 				account.setUserPw(inputPw);
 				System.out.println("비밀번호 변경 성공!");
+				dao.doUpdate();
 				break;
 			} 
 			
 			System.out.println("비밀번호 변경 실패!");
 		}
-		dao.doUpdate();
+		
 
 	}
 

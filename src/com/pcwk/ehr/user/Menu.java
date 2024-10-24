@@ -4,15 +4,16 @@ import java.util.Scanner;
 
 public class Menu {
 	CreateAccount createAccount = new CreateAccount(); // 계좌 생성
-	Login login 				= new Login(); // 로그인
-	Deposit deposit 			= new Deposit(); // 입금
-	RequestAdmin reqAdmin 		= new RequestAdmin(); // 계좌 삭제 관리자에게 요청
-	ChangePw changePw 			= new ChangePw(); // 비밀번호 변경 (사용자)
-	DeleteAcc deleteAcc 		= new DeleteAcc(); // 관리자가 사용자 계좌 삭제
-	Transfer transfer		    = new Transfer(); // 이체
-	Withdraw withdraw 			= new Withdraw(); // 출금
+	Login login = new Login(); // 로그인
+	Deposit deposit = new Deposit(); // 입금
+	RequestAdmin reqAdmin = new RequestAdmin(); // 계좌 삭제 관리자에게 요청
+	ChangePw changePw = new ChangePw(); // 비밀번호 변경 (사용자)
+	DeleteAcc deleteAcc = new DeleteAcc(); // 관리자가 사용자 계좌 삭제
+	Transfer transfer = new Transfer(); // 이체
+	Withdraw withdraw = new Withdraw(); // 출금
+	Installment installment = new Installment();
 
-	AccountDao dao  = new AccountDao();
+	AccountDao dao = new AccountDao();
 	Scanner scanner = new Scanner(System.in);
 
 	public void menu0() { // 처음 화면 (메인메뉴) // select 관리자 모드 or 사용자 모드
@@ -45,6 +46,8 @@ public class Menu {
 				break;
 			case 0:
 				System.out.println("프로그램 종료!");
+			default:
+				System.out.println("잘못된 입력입니다.");
 			}
 		}
 	}
@@ -52,7 +55,6 @@ public class Menu {
 	public void adminMenu() { // 관리자 모드 메뉴
 
 		int input2 = 0;
-
 		do {
 			System.out.println("====================================");
 			System.out.println("┌────────────────────────────────┐");
@@ -90,7 +92,13 @@ public class Menu {
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
+			case 0:
+				System.out.println("관리자 모드 종료!");
+				break;
+			default:
+				System.out.println("잘못된 입력입니다.");
 			}
+
 		} while (input2 != 0);
 	}
 
@@ -109,9 +117,10 @@ public class Menu {
 			System.out.println("3. 입금");
 			System.out.println("4. 출금");
 			System.out.println("5. 송금");
-			System.out.println("6. 계좌 정보 조회");
-			System.out.println("7. 계좌 비밀번호 변경");
-			System.out.println("8. 계좌 삭제 (관리자에게 요청)");
+			System.out.println("6. 적금");
+			System.out.println("7. 계좌 정보 조회");
+			System.out.println("8. 계좌 비밀번호 변경");
+			System.out.println("9. 계좌 삭제 (관리자에게 요청)");
 			System.out.println("0. 사용자 모드 종료");
 			System.out.println("====================================");
 			System.out.print("입력: ");
@@ -119,9 +128,13 @@ public class Menu {
 
 			switch (input) {
 			case 1: // 계좌 생성
+				if(AccountVO.userLoginVO == null) {
 				createAccount.createAccount();
+				} else {
+					System.out.println("로그인 되어있는 상태에서는 계좌를 생성할 수 없습니다.");
+				}
 				break;
-				
+
 			case 2: // 로그인
 				if (AccountVO.userLoginVO != null) {
 					System.out.println("이미 로그인 되어있습니다.");
@@ -148,7 +161,7 @@ public class Menu {
 					System.out.println("로그인 먼저 해주세요.");
 				}
 				break;
-				
+
 			case 5: // 송금 함수
 				if (login.IsUserLogin() == true) {
 					transfer.trasnfer();
@@ -156,16 +169,24 @@ public class Menu {
 					System.out.println("로그인 먼저 해주세요.");
 				}
 				break;
-				
-			case 6: // 계좌 정보 조회 함수
+
+			case 6: // 적금
+				if (login.IsUserLogin() == true) {
+					installment.installmentMenu();
+				} else {
+					System.out.println("로그인 먼저 해주세요.");
+				}
+				break;
+
+			case 7: // 계좌 정보 조회 함수
 				if (login.IsUserLogin() == true) {
 					dao.displayLoginAccInfo();
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
 				break;
-				
-			case 7: // 비밀번호 변경 (사용자)
+
+			case 8: // 비밀번호 변경 (사용자)
 				if (login.IsUserLogin() == true) {
 					changePw.userChangePw();
 				} else {
@@ -173,21 +194,23 @@ public class Menu {
 				}
 				break;
 
-			case 8: // 계좌 삭제 (관리자에게 요청)
+			case 9: // 계좌 삭제 (관리자에게 요청)
 				if (login.IsUserLogin() == true) {
 					reqAdmin.requestAdmin();
 				} else {
 					System.out.println("로그인 먼저 해주세요.");
 				}
 				break;
-				
+
 			case 0: // 사용자 모드 종료
 				System.out.println("메인 메뉴로 돌아갑니다.");
 				break;
+				
+				default:
+					System.out.println("잘못된 값입니다.");
 			}
+			
 
 		} while (input != 0);
-
 	}
-
 }

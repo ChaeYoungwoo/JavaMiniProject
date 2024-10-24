@@ -18,7 +18,7 @@ public class CreateAccount {
         }
         return type;
     }
-    public AccountVO createAccount()  {
+    public AccountVO createAccount()  { // 계좌 생성
        AccountVO out = null;
        System.out.println("===== 회원가입 =====");
        //계좌번호
@@ -60,7 +60,7 @@ public class CreateAccount {
 		}
 
 
-        if(check(userName,userDob,userPw,initBalance) == true) {
+        if(check(userName,userDob,userPw,initBalance) == true) { 
             out = new AccountVO(accNo, userName, userPw, userDob, regDt, roleName, balance);
 
             System.out.println("********** 계좌 생성 완료! **********");

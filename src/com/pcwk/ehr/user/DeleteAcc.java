@@ -13,7 +13,7 @@ public class DeleteAcc {
 
 	}
 
-	public void deleteMenu() {
+	public void deleteMenu() { // 계좌 삭제 재차 물어보기 위한 메뉴
 		System.out.println("===== 계좌 삭제 =====");
 		int input = 100;
 		while (input != 0) {
@@ -40,7 +40,7 @@ public class DeleteAcc {
 
 	}
 
-	public void deleteAcc() {
+	public void deleteAcc() { // 계좌 삭제
 
 		Iterator<AccountVO> iter = AccountDao.accounts.iterator();
 
@@ -52,7 +52,6 @@ public class DeleteAcc {
 				System.out.println("계좌 삭제 성공!");
 				dao.doUpdate();
 			}
-			AccountVO.userLoginVO = null;
 		}
 	}
 }

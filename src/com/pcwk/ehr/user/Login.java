@@ -78,7 +78,6 @@ public class Login {
 				}
 			}
 		}
-		System.out.println(AccountVO.adminLoginVO);
 		System.out.println("계좌번호 혹은 비밀번호가 일치하지 않습니다.");
 	} //adminLogin() end
 }
